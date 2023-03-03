@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.stats import multivariate_normal
 
 class GaussianMixtureModel:
 
@@ -24,7 +25,7 @@ class GaussianMixtureModel:
                 
             # Expectation
             for j in range(k):
-                q[:, j] = pi[j] * self._multivariate_normal(X, self.mu[j], self.S[j])    
+                q[:, j] = pi[j] * multivariate_normal.pdf(X, self.mu[j], self.S[j])    
                 
             q = q / np.sum(q, axis = 1)[:, np.newaxis]
 
@@ -35,16 +36,8 @@ class GaussianMixtureModel:
 
     def predict(self, X, prob = False):
 
-        probs = np.array([self._multivariate_normal(X, mean = self.mu[j], cov = self.S[j]) for j in range(self.k) ])
+        probs = np.array([multivariate_normal.pdf(X, mean = self.mu[j], cov = self.S[j]) for j in range(self.k) ])
 
         if prob == False: return np.argmax(probs, axis = 0) 
         
         return probs
-    
-    def _multivariate_normal(self, X, mean, cov):
-
-        L = np.linalg.cholesky(cov)
-        cf = np.prod(np.diag(L)) / (2 * np.pi) ** (X.size)
-        z = np.linalg.solve(L, X - mean)
-
-        return cf * np.exp(-0.5 * z.dot(z))
