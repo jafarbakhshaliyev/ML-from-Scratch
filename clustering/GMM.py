@@ -7,8 +7,8 @@ class GaussianMixtureModel:
         
         N, M = X.shape
         self.k = k
-        pi, mu = np.zeros(k), np.zeros((k,M))
-        S = [np.eye(M)] * k
+        pi, self.mu = np.zeros(k), np.zeros((k,M))
+        self.S = [np.eye(M)] * k
         q = np.random.uniform(0, 1, size=(N, k))
         q = q/np.sum(q, axis = 1)[:, np.newaxis]
 
@@ -19,20 +19,17 @@ class GaussianMixtureModel:
             # Maximization
             for j in range(k):
                 pi[j] = np.sum(q, axis = 0)[j] / N
-                mu[j] = (q[:, j].T@X)/ np.sum(q, axis = 0)[j]
-                S[j] = ((q[:,j] * ((X - mu[j]).T)) @ (X - mu[j])) / np.sum(q, axis = 0)[j]
+                self.mu[j] = (q[:, j].T@X)/ np.sum(q, axis = 0)[j]
+                self.S[j] = ((q[:,j] * ((X - self.mu[j]).T)) @ (X - self.mu[j])) / np.sum(q, axis = 0)[j]
                 
             # Expectation
             for j in range(k):
-                q[:, j] = pi[j] * self._multivariate_normal.pdf(X, mu[j], S[j])    
+                q[:, j] = pi[j] * self._multivariate_normal.pdf(X, self.mu[j], self.S[j])    
                 
             q = q / np.sum(q, axis = 1)[:, np.newaxis]
 
             if np.allclose(q, q_old, atol = epsilon):
                 break
-
-        self.mu = mu
-        self.S = S  
 
         return self
 
@@ -49,5 +46,5 @@ class GaussianMixtureModel:
         L = np.linalg.cholesky(cov)
         cf = np.prod(np.diag(L)) / (2 * np.pi) ** (mean.size / 2)
         z = np.linalg.solve(L, X - mean)
-        
+
         return cf * np.exp(-0.5 * z.dot(z))
