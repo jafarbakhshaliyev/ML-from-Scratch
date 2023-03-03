@@ -44,7 +44,7 @@ class GaussianMixtureModel:
     def _multivariate_normal(self, X, mean, cov):
 
         L = np.linalg.cholesky(cov)
-        cf = np.prod(np.diag(L)) / (2 * np.pi) ** (mean.size / 2)
+        cf = np.prod(np.diag(L)) / (2 * np.pi) ** (X.size)
         z = np.linalg.solve(L, X - mean)
 
         return cf * np.exp(-0.5 * z.dot(z))
