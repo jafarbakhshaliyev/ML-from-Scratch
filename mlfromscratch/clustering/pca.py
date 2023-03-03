@@ -1,7 +1,8 @@
 import numpy as np
 
-class PCA:
 
+class PCA:
+    
     def fit(self, X, n):
 
         U, S, Vt = np.linalg.svd(X, full_matrices=False)
