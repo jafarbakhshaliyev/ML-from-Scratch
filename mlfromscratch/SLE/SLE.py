@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def solve_SLE(A, b, solver= "Gaussian"):
     """
     The function solves linear system of equations by taking A and b where Ax = b and solver: Gaussian or QR 
@@ -37,7 +36,7 @@ def Gaussian_elimination(A, b):
             for j in range(k,len(b)): 
 
                 A[i,j] -= factor*A[k,j] 
-            b[i] -= factor*b[k]  
+            b[i] = np.float64(b[i]) - factor*np.float64(b[k])  
 
     return A, b             
     
