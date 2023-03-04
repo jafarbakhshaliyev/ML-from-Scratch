@@ -36,11 +36,11 @@ def Gaussian_elimination(A, b):
             for j in range(k,len(b)): 
 
                 A[i,j] -= factor*A[k,j] 
-            b[i] = np.float64(b[i]) - factor*np.float64(b[k])  
+            b[i] = np.subtract(b[i], np.float64(factor), casting='unsafe')
 
     return A, b             
     
-
+    
 def QR_decomposition(A, b):
     
     Q = np.zeros((A.shape[0],A.shape[0])) 
