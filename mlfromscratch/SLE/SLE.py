@@ -40,7 +40,7 @@ def Gaussian_elimination(A, b):
 
     return A, b             
     
-    
+
 def QR_decomposition(A, b):
     
     Q = np.zeros((A.shape[0],A.shape[0])) 
@@ -78,7 +78,8 @@ def back_substition(A, b):
 
         for j in range(i+1,len(b)): 
 
-            total -= A[i,j]*x[j] 
+            #total -= A[i,j]*x[j] 
+            total = total - np.subtract(total, np.float64(A[i,j]*x[j] ), casting='unsafe')
                                 
         x[i] = total/A[i,i] 
 
