@@ -36,7 +36,7 @@ def Gaussian_elimination(A, b):
             for j in range(k,len(b)): 
 
                 A[i,j] -= factor*A[k,j] 
-            b[i] = np.subtract(b[i], np.float64(factor), casting='unsafe')
+            b[i] -= factor*b[k]
 
     return A, b             
     
@@ -78,8 +78,7 @@ def back_substition(A, b):
 
         for j in range(i+1,len(b)): 
 
-            #total -= A[i,j]*x[j] 
-            total = total - np.subtract(total, np.float64(A[i,j]*x[j] ), casting='unsafe')
+            total -= A[i,j]*x[j] 
                                 
         x[i] = total/A[i,i] 
 
