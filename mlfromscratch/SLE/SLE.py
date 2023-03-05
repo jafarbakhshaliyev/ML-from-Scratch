@@ -8,6 +8,8 @@ def solve_SLE(A, b, solver= "Gaussian"):
     :param b: array
     :param solver: str ("Gaussian" or "QR")
     """
+    A, b = A.copy(), b.copy()
+
     if solver == 'Gaussian':
 
         A, b = Gaussian_elimination(A, b) 
@@ -37,7 +39,6 @@ def Gaussian_elimination(A, b):
 
                 A[i,j] -= factor*A[k,j] 
             b[i] -= factor*b[k]
-
     return A, b             
     
 
