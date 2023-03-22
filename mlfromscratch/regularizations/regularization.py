@@ -4,10 +4,10 @@ class Regularization:
     def __init__(self) -> None:
      pass
 
-    def L2(self, theta, lambd):
+    def L2(self, theta, lambd, ratio):
       return lambd*theta.T@theta, 2*lambd*theta, 2*lambd
     
-    def L1(self, theta, lambd):
+    def L1(self, theta, lambd, ratio):
       return lambd*np.sum(np.abs(theta)), lambd*np.sign(theta), 0
     
     def ElasticNet(self, theta, lambd, ratio):
