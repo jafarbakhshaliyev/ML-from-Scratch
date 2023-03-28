@@ -2,16 +2,6 @@ import numpy as np
 
 class Perceptron:
     
-    def activation(self, z):
-        
-        return np.where(z>0, 1, -1) 
-    
-    def accuracy(self, y_true, y_pred):
-        
-        accuracy = np.sum(y_true == y_pred) # not dividing by len because we have one
-        
-        return accuracy
-    
     def fit(self, X, y, lr, epochs):
         
         m, n = X.shape
@@ -52,3 +42,13 @@ class Perceptron:
         self.pred = self.activation(np.dot(X, self.theta).reshape(1,-1)) 
         
         return self.pred
+    
+    def activation(self, z):
+        
+        return np.where(z>0, 1, -1) 
+    
+    def accuracy(self, y_true, y_pred):
+        
+        accuracy = np.sum(y_true == y_pred)
+        
+        return accuracy
